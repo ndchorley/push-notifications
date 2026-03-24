@@ -8,22 +8,22 @@ import org.http4k.server.Jetty
 import org.http4k.server.asServer
 
 fun main() {
-    val routes = routes(
-        "/here/{name}" bind POST to { 
-            request ->
-                val name = request.path("name")!!
-            
-                notifyClientsAbout(name)
-                
-                Response(OK)
-        }
-    )
+    val routes = routes(personIsHere)
 
     routes.asServer(Jetty(port = 9000)).start()
 }
 
+val personIsHere =
+    "/here/{name}" bind POST to { request ->
+        val name = request.path("name")!!
+
+        notifyClientsAbout(name)
+
+        Response(OK)
+    }
+
 fun notifyClientsAbout(name: String) {
     val clients: List<Client> = listOf(ConsoleClient)
-    
+
     clients.forEach { client -> client.notify(name) }
 }
