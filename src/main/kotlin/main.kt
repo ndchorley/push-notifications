@@ -3,6 +3,7 @@ import org.http4k.core.Response
 import org.http4k.core.Status.Companion.OK
 import org.http4k.routing.bind
 import org.http4k.routing.path
+import org.http4k.routing.poly
 import org.http4k.routing.routes
 import org.http4k.server.Jetty
 import org.http4k.server.asServer
@@ -12,7 +13,7 @@ import java.nio.file.Paths
 fun main() {
     val routes = routes(personIsHere, showPage)
 
-    routes.asServer(Jetty(port = 9000)).start()
+    poly(routes).asServer(Jetty(port = 9000)).start()
 }
 
 val personIsHere =
